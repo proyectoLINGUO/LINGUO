@@ -1,19 +1,15 @@
-//  Nilheim Mechatronics Simplified Eye Mechanism Code
-//  Make sure you have the Adafruit servo driver library installed >>>>> https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library
-//  X-axis joystick pin: A1
-//  Y-axis joystick pin: A0
-//  Trim potentiometer pin: A2
-//  Button pin: 2
+//  Eje-X joystick pin = A1
+//  Eje-Y joystick pin = A0
+//  Trim potenciometro pin = A2
+//  Boton pin = 2
 
  
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-#define SERVOMIN  140 // this is the 'minimum' pulse length count (out of 4096)
-#define SERVOMAX  520 // this is the 'maximum' pulse length count (out of 4096)
-
-uint8_t servonum = 0;
+#define SERVOMIN  140 // Minimo del ancho de pulso (out of 4096)
+#define SERVOMAX  520 // Maximo del ancho de pulso (out of 4096)
 
 int xval;
 int yval;
@@ -43,35 +39,33 @@ void setup()
  
   pwm.begin();
   
-  pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
+  pwm.setPWMFreq(60);  // Los servos se actualizan a 60Hz
 
   delay(10);
 }
 
-// you can use this function if you'd like to set the pulse length in seconds
-// e.g. setServoPulse(0, 0.001) is a ~1 millisecond pulse width. its not precise!
 void setServoPulse(uint8_t n, double pulse) 
 {
   double pulselength;
   
-  pulselength = 1000000;   // 1,000,000 us per second
+  pulselength = 1000000;   // 1,000,000 us por segundo
   pulselength /= 60;   // 60 Hz
-  pulselength /= 4096;  // 12 bits of resolution
-  pulse *= 1000000;  // convert to us
+  pulselength /= 4096;  // 12 bits de resolucion
+  pulse *= 1000000;  // convierte en us
   pulse /= pulselength;
 
 }
 
 void loop() {
 
-  xval = analogRead(A1);
+  xval = analogRead(A1); ///////////////////////////////////esto hay que cambiar para controlar por bt
     lexpulse = map(xval, 0,1023, 220, 440);
     rexpulse = lexpulse;
 
     switchval = digitalRead(2);
     
     
-  yval = analogRead(A0);
+  yval = analogRead(A0); ///////////////////////////////////esto hay que cambiar para controlar por bt
     leypulse = map(yval, 0,1023, 250, 500);
     reypulse = map(yval, 0,1023, 400, 280);
 
