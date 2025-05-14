@@ -15,7 +15,7 @@ void move(Control *sender, int type) {
   if (type != B_DOWN) return;
 
   String id = sender->label;
-
+// flechas de movivmiento
   if (id == "↑") Y += 1;
   else if (id == "↓") Y -= 1;
   else if (id == "←") X -= 1;
@@ -32,7 +32,7 @@ void move(Control *sender, int type) {
 
 void setup() {
   Serial.begin(115200);
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid, password); // red y contraseña
 
   Serial.print("Conectando a WiFi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -70,5 +70,5 @@ void setup() {
 }
 
 void loop() {
-  // Nada aquí, ESPUI se encarga de todo
+  // Acá el codigo porque las variables xval e yval se controlan solas por el ESPUI
 }
