@@ -6,8 +6,8 @@ const char* ssid = "________"        // nombre de la red
 const char* password = "________";   // contraseña de la red
 
 // 🧭 Coordenadas XY
-int xval = 0;
-int yval = 0;
+int X = 0;
+int Y = 0;
 Control *labelXY;  // Para mostrar X e Y en la interfaz
 
 // 📦 Callback de botones
@@ -24,6 +24,7 @@ void move(Control *sender, int type) {
   else if (id == "↗") { X += 1; Y += 1; }
   else if (id == "↙") { X -= 1; Y -= 1; }
   else if (id == "↘") { X += 1; Y -= 1; }
+  
 
   String pos = "X: " + String(X) + " | Y: " + String(Y);
   ESPUI.updateLabel(labelXY, pos);
