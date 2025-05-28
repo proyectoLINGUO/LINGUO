@@ -25,28 +25,28 @@ int uplidpulse,lolidpulse,altuplidpulse,altlolidpulse;
 int trimval;
 int sensorValue = 0;
 int outputValue = 0;
-int switchval = 0;
+bool switchval = LOW;
+
+#define toggle _  ///////////////////////////////////////////////          pin para cambiar de modo
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void movimionto_ojos()
 {
-    lexpulse = map(xval, 0,1023, 220, 440);
+    lexpulse = map(X, 0,1023, 220, 440);
     rexpulse = lexpulse;
-
-    switchval = digitalRead(2);
     
-    leypulse = map(yval, 0,1023, 250, 500);
-    reypulse = map(yval, 0,1023, 400, 280);
+    leypulse = map(Y, 0,1023, 250, 500);
+    reypulse = map(Y, 0,1023, 400, 280);
 
   trimval = analogRead(A2);
     trimval=map(trimval, 320, 580, -40, 40);
-     uplidpulse = map(yval, 0, 1023, 400, 280);
+     uplidpulse = map(Y, 0, 1023, 400, 280);
         uplidpulse -= (trimval-40);
           uplidpulse = constrain(uplidpulse, 280, 400);
      altuplidpulse = 680-uplidpulse;
 
-     lolidpulse = map(yval, 0, 1023, 410, 280);
+     lolidpulse = map(Y, 0, 1023, 410, 280);
        lolidpulse += (trimval/2);
          lolidpulse = constrain(lolidpulse, 280, 400);      
      altlolidpulse = 680-lolidpulse;
@@ -85,6 +85,9 @@ void move(Control *sender, int type)
   else if (id == "↗") { X += 1; Y += 1; }
   else if (id == "↙") { X -= 1; Y -= 1; }
   else if (id == "↘") { X += 1; Y -= 1; }
+  else if (id == "⚫") { switchval  = !switchval }
+
+  
 
   String pos = "X: " + String(X) + " | Y: " + String(Y);
   ESPUI.updateLabel(labelXY, pos);
@@ -135,7 +138,7 @@ void setup()
   Serial.println(WiFi.localIP());
 
   // 🌐 Interfaz web
-  ESPUI.begin("Joystick XY");
+  ESPUI.begin("Joystick XY epico para el linguo");
 
   // Fila 1: ↖ ↑ ↗
   ESPUI.beginRow();
@@ -147,7 +150,7 @@ void setup()
   // Fila 2: ← Label →  
   ESPUI.beginRow();
   ESPUI.button("←", &move, ControlColor::Wetaslphat);
-  labelXY = ESPUI.label("X: 0 | Y: 0"); //////////////////////////aca hay que poner para el parpadeo la variable es "switchval"
+  ESPUI.button("⚫", &move, ControlColor::Dark);
   ESPUI.button("→", &move, ControlColor::Wetaslphat);
   ESPUI.endRow();
 
@@ -158,12 +161,11 @@ void setup()
   ESPUI.button("↘", &move, ControlColor::Wetaslphat);
   ESPUI.endRow(); 
   
-  pinMode(pin_N,INPUT); // selector de modo LOW=Sensor de Gestos || HIGH=wifi
+  pinMode(toggle,INPUT); //                                         selector de modo LOW=Sensor de Gestos || HIGH=wifi
   pinMode(2, INPUT); // pin de interrupcion del APDS9960
   
   pwm.begin();
   pwm.setPWMFreq(60);  // Los servos se actualizan a 60Hz
-
 
   delay(10);
 }
@@ -188,13 +190,13 @@ void loop()
 {
   switch(case)
   {
-    case (digitalRead(pin_n)==HIGH):
+    case (digitalRead(toggle)==HIGH):        ////////////////        CONTROL WIFI
     
       break;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       
-    case (digitalRead(pin_n)==LOW):
+    case (digitalRead(toggle)==LOW):         ///////////////        SENSOR DE GESTOS
         if( isr_flag == 1 ) 
           {
             detachInterrupt(0);
@@ -268,17 +270,9 @@ void handleGesture()
     }
   }
 }
-/*
-  
- *fila 2 (centro) boton del medio para que parpadee 
+
+
+
+
+
  
- else if (id == " O ")
-  {
-    switchval=HIGH;
-    delay(300);
-    switchval=LOW;
-    delay(100);
-  }
-  
- ESPUI.button(" O ", &centerAction, ControlColor::Carrot); 
- */
