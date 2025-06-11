@@ -275,4 +275,8 @@ void handleGesture()
 
 
 
+<<<<<<< HEAD
  
+=======
+ 
+>>>>>>> 8eec6ff6459991c4d171fcac3753ee4b790a1301
