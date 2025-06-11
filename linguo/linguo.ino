@@ -13,7 +13,7 @@ const char* password = "________";   // contraseña de la red
 
 int X = 0;
 int Y = 0;
-Control *labelXY;  // Para mostrar X e Y en la interfaz
+uint16_t labelXY;  // Para mostrar X e Y en la interfaz
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <Adafruit_PWMServoDriver.h>
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -141,27 +141,22 @@ void setup()
   ESPUI.begin("Joystick XY epico para el linguo");
 
   // Fila 1: ↖ ↑ ↗
-  ESPUI.beginRow();
-  ESPUI.button("↖", &move, ControlColor::Wetaslphat);
-  ESPUI.button("↑", &move, ControlColor::Wetaslphat);
-  ESPUI.button("↗", &move, ControlColor::Wetaslphat);
-  ESPUI.endRow();
+  ESPUI.button("↖", &move, ControlColor::Dark);
+  ESPUI.button("↑", &move, ControlColor::Dark);
+  ESPUI.button("↗", &move, ControlColor::Dark);
 
   // Fila 2: ← Label →  
-  ESPUI.beginRow();
-  ESPUI.button("←", &move, ControlColor::Wetaslphat);
+  ESPUI.button("←", &move, ControlColor::Dark);
   ESPUI.button("⚫", &move, ControlColor::Dark);
-  ESPUI.button("→", &move, ControlColor::Wetaslphat);
-  ESPUI.endRow();
+  ESPUI.button("→", &move, ControlColor::Dark);
 
   // Fila 3: ↙ ↓ ↘
-  ESPUI.beginRow();
-  ESPUI.button("↙", &move, ControlColor::Wetaslphat);
-  ESPUI.button("↓", &move, ControlColor::Wetaslphat);
-  ESPUI.button("↘", &move, ControlColor::Wetaslphat);
-  ESPUI.endRow(); 
+  ESPUI.button("↙", &move, ControlColor::Dark);
+  ESPUI.button("↓", &move, ControlColor::Dark);
+  ESPUI.button("↘", &move, ControlColor::Dark);
+   
   
-  pinMode(toggle,INPUT); //                                         selector de modo LOW=Sensor de Gestos || HIGH=wifi
+  pinMode(toggle,INPUT); //                                     selector de modo                                     ------------- LOW=Sensor de Gestos || HIGH=wifi --------------------
   pinMode(2, INPUT); // pin de interrupcion del APDS9960
   
   pwm.begin();
