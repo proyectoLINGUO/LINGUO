@@ -6,24 +6,18 @@
  
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x40);
 
 #define SERVOMIN  140 // Minimo del ancho de pulso (out of 4096)
 #define SERVOMAX  520 // Maximo del ancho de pulso (out of 4096)
 
-int xval;
-int yval;
+int xval,yval;
 
-int lexpulse;
-int rexpulse;
+int lexpulse,rexpulse;
 
-int leypulse;
-int reypulse;
+int leypulse,reypulse;
 
-int uplidpulse;
-int lolidpulse;
-int altuplidpulse;
-int altlolidpulse;
+int uplidpulse,lolidpulse,altuplidpulse,altlolidpulse;
 
 int trimval;
 
@@ -58,18 +52,18 @@ void setServoPulse(uint8_t n, double pulse)
 
 void loop() {
 
-  xval = analogRead(A1); ///////////////////////////////////esto hay que cambiar para controlar por bt
+  xval = analogRead(35); ///////////////////////////////////esto hay que cambiar para controlar por bt
     lexpulse = map(xval, 0,1023, 220, 440);
     rexpulse = lexpulse;
 
     switchval = digitalRead(2);
     
     
-  yval = analogRead(A0); ///////////////////////////////////esto hay que cambiar para controlar por bt
+  yval = analogRead(34); ///////////////////////////////////esto hay que cambiar para controlar por bt
     leypulse = map(yval, 0,1023, 250, 500);
     reypulse = map(yval, 0,1023, 400, 280);
 
-  trimval = analogRead(A2);
+  trimval = analogRead(15);
     trimval=map(trimval, 320, 580, -40, 40);
      uplidpulse = map(yval, 0, 1023, 400, 280);
         uplidpulse -= (trimval-40);
@@ -98,6 +92,6 @@ void loop() {
       pwm.setPWM(4, 0, altuplidpulse);
       pwm.setPWM(5, 0, altlolidpulse);
       }
- 
+
   delay(5);
 }
